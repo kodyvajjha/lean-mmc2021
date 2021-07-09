@@ -1,18 +1,27 @@
 /-
 # Propositions as Types. 
-In this file, we shall be introduced to the paradigm of *Propositions as Types* and how they are handled in Lean. We shall also use this oppurtunity to get familiar with Lean's syntax.  
+In this file, we shall be introduced to the paradigm of 
+*Propositions as Types* and how they are handled in Lean. 
+We shall also use this oppurtunity to get familiar with 
+Lean's syntax.  
 
-Acknowledgements : Heavily borrowed from Jalex Stark and Apurva Nakade's tutorial. 
+Acknowledgements : Heavily borrowed from Jalex Stark and
+Apurva Nakade's tutorial. 
 
 Import commands go right at the top of a Lean file.
 -/
 
 import data.nat.pow
+import data.nat.prime 
 
 /- 
-Before that, let us delve into type theory. *All* objects in Lean have a *type*. Things which have a type are called *terms*. This simple stratification is more powerful than you may first think. You can query the type of a term using `#check`. 
+  Before that, let us delve into type theory.
+ *All* objects in Lean have a *type*.
+  Things which have a type are called *terms*. 
+  This simple stratification is more powerful than you may first think.
+  You can query the type of a term using `#check`. 
 
-Inspect the following commands:
+  Inspect the following commands:
 -/
 
 #check 1
@@ -23,12 +32,17 @@ Inspect the following commands:
 #check tt 
 #check ff
 
-/- Here is an important type. The type of all propositions. Roughly speaking, a proposition is something which can be subjected to a proof. 
+/- 
+  Here is an important type. The type of all propositions. 
+  Roughly speaking, a proposition is something which can be
+  subjected to a proof. 
 -/
 #check Prop 
 
 /-
-In type theory, "a has type A" is written as "a:A". You can read this in two ways: 
+In type theory, "a has type A" is written as "a:A".
+You can read this in two ways: 
+
   (1) a belongs to the set A 
   (2) a is a proof of A
 
@@ -44,13 +58,22 @@ Here are some silly propositions. All of these are terms of type Prop.
 #check ¬(1 = 0) -- negation
 
 -- here is a not so silly proposition
-
-#check  ∀ (x y z n : ℕ), (n > 2) → (x*y*z ≠ 0) → ¬(x^n + y^n = z^n) 
+-- (XX : State Fermat's Last Theorem/Goldbach) 
 
 /-
-As we've said, propositions can be subjected to *(dis)proof*. Here is how this is done in Lean: since every term has a type, and Propositions are types too, we should read their terms as their proofs. 
+As we've said, propositions can be subjected to *(dis)proof*. 
+Here is how this is done in Lean: since every term has a type,
+and Propositions are types too, we should read their terms as 
+their proofs. 
 
-This points to (2) above. To repeat ourselves again, we read `p : 1+1 = 2` as `p` is a proof of the proposition that 1+1 = 2. Let us check if our propositions are provable or not.  
+This points to (2) above. 
+To repeat ourselves again, we read `p : 1+1 = 2` as `p` is a
+proof of the proposition that 1+1 = 2. 
+Let us check if our propositions are provable or not.  
+
+We will try to prove more of our silly props later. 
+
+XX : First proof, syntax explanation, term mode/tactic mode.
 -/
 
 example : 1 + 1 = 2 := 
@@ -62,17 +85,23 @@ example : 1 + 1 = 2 := by refl
 
 
 
-
 /- 
 # Tactics 
 
-The terms inside the `begin ... end` block you see here are called *tactics*. 
+The terms inside the `begin ... end` block you see here are
+called *tactics*. 
 
-As soon as you write out a valid lemma and write a `begin ... end` below it, Lean wakes up and tries to solve the goal you stated, and complains if it can't. 
-You look at it's complaints and help it along, until it complains no more. 
-This is the *interactive* part of interactive theorem proving. 
+As soon as you write out a valid lemma and write a `begin ... end` 
+below it, Lean wakes up and tries to solve the goal you stated, and
+complains if it can't. 
 
-The next incantation defines two abstract propositions and adds it to the context henceforth. 
+You look at it's complaints and help it along, until it 
+complains no more. This is the *interactive* part of interactive
+theorem proving. 
+
+The next incantation defines two abstract propositions and adds 
+it to the context henceforth. 
+
 -/
 
 namespace tactics
@@ -158,13 +187,13 @@ end
 ``cases``
 
   ``cases`` is a general tactic that breaks up complicated terms.
-  If ``hpq`` is a term of type ``P ∧ Q`` or ``P ∨ Q`` or ``P ↔ Q``, then use
-  ``cases hpq with hp hq,``.
+  If ``hpq`` is a term of type ``P ∧ Q`` or ``P ∨ Q`` or ``P ↔ Q``, 
+  then use ``cases hpq with hp hq,``.
 
 ``split``
 
-  If the target of the current goal is ``P ∧ Q`` or ``P ↔ Q``, then use
-  ``split,``.
+  If the target of the current goal is ``P ∧ Q`` or ``P ↔ Q``, 
+  then use ``split,``.
 
 ``left``/``right``
 
@@ -253,7 +282,8 @@ end tactics
 
 
 /- 
-  Using the tactics above, let's try to prove some of the silly propositions we wrote out before:
+  Using the tactics above, let's try to prove some of the 
+  silly propositions we wrote out before:
    
   ∀ (x : ℕ), x = 10 -- universal quantification
   ∃ k : ℕ, 10 = 2*k -- existential quantification
@@ -298,7 +328,7 @@ Prove these:
 -- Use rw.
 lemma eq_symm : ∀ (x y : ℕ), x = y → y = x := sorry
 
--- Use injection. 
+-- XX: Show what proving a negation means. Use injection. 
 lemma one_ne_zero' : ¬(1 = 0) := sorry
 
 
@@ -306,7 +336,8 @@ lemma one_ne_zero' : ¬(1 = 0) := sorry
 /-
 # Exercises
 
-Using the tactics from above, try to prove as many of the following as you can:
+Using the tactics from above, try to prove as many of the 
+following as you can:
 -/
 namespace exercises 
 
