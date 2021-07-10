@@ -32,6 +32,7 @@ import data.nat.prime
 #check tt 
 #check ff
 
+
 /- 
   Here is an important type. The type of all propositions. 
   Roughly speaking, a proposition is something which can be
@@ -50,12 +51,16 @@ Here are some silly propositions. All of these are terms of type Prop.
 -/
 
 #check 1 + 1 = 2 -- equality
-#check ∀ (x : ℕ), x = 10 -- universal quantification
+#check ∀ (x : ℕ), x = 10
+#check ∃ (k : ℕ), 10 = 2*k
+#check ∀ (x : bool), x = tt ∨ x = ff
+#check ∀ (x y : ℕ), x = y → y = x
+#check ∀ (x y z n : ℕ), n > 2 → (x*y*z ≠ 0) → (x^n + y^n = z^n)
 #check ∃ k : ℕ, 10 = 2*k -- existential quantification
 #check ∀ (x : bool), x = tt ∨ x = ff -- disjunction
 #check ∀ (x : bool), x = tt ∧ x = ff -- conjunction
 #check ∀ (x y : ℕ), x = y → y = x -- implication
-#check ¬(1 = 0) -- negation
+#check ¬(1 = 0) -- negation \not 
 
 -- here is a not so silly proposition
 -- (XX : State Fermat's Last Theorem/Goldbach) 
@@ -76,14 +81,30 @@ We will try to prove more of our silly props later.
 XX : First proof, syntax explanation, term mode/tactic mode.
 -/
 
-example : 1 + 1 = 2 := 
+theorem one_plus_one_two : 1+1 = 1+1 := 
 begin
-refl, -- the LHS and RHS are identical, after normalization
+  refl,
+end
+
+theorem ten_is_even :  ∃ k m : ℕ, m = 2*k := 
+begin
+  use 5,
+  use 10,
+  refl, 
+end
+
+theorem bool_thm :  ∀ (x : bool), x = tt ∨ x = ff := 
+begin
+  assume x, 
+  cases x, 
+  {
+    right, 
+    refl,
+  },
+  {
+    sorry,
+  }
 end 
-
-example : 1 + 1 = 2 := by refl
-
-
 
 /- 
 # Tactics 
