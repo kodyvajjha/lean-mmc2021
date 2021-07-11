@@ -149,17 +149,20 @@ Delete the ``sorry,`` below and replace them with a legitimate proof.
 
 theorem tautology' (hp : p) : p :=
 begin
-  sorry,
+  exact hp,
 end
 
 theorem tautology'' : p → p :=
 begin
-  sorry,
+  assume hp, 
+  exact hp,
 end
 
 example : (p → (q → p)) :=
 begin
-  sorry,
+  assume hp, 
+  assume hq,
+  exact hp,
 end
 
 -- Can you find two different ways of proving the following?
@@ -189,19 +192,39 @@ Delete the ``sorry,`` below and replace them with a legitimate proof.
 
 example (p q r : Prop) (hp : p) (f : p → q) (g : q → r) : r :=
 begin
-  sorry,
+  have hq : q,
+  { 
+    exact (f hp),
+  },
+  exact (g hq),
 end
 
-example (P Q R S T U: Type)
+example (p q r : Prop) (hp : p) (f : p → q) (g : q → r) : r :=
+begin
+  apply g, 
+  apply f, 
+  exact hp,
+end
+
+
+theorem quux (P Q R S T U: Type)
 (hpq : P → Q)
 (hqr : Q → R)
-(hqt : Q → T)
+(hrs : R → S)
 (hst : S → T)
 (htu : T → U)
 : P → U :=
 begin
-  sorry,
+  assume hp,
+  apply htu,
+  apply hst,
+  apply hrs,
+  apply hqr,
+  apply hpq,
+  exact hp,
 end
+
+#print quux
 
 /-
 
@@ -231,17 +254,58 @@ Delete the ``sorry,`` below and replace them with a legitimate proof.
 
 example (P Q : Prop) : P ∧ Q → Q ∧ P :=
 begin
-  sorry,
+  assume hpq,
+  split,
+  {
+    cases hpq with hp hq,
+    exact hq,
+  },
+  {
+    cases hpq with hp hq,
+    exact hp,
+  }
 end
 
+example (P Q : Prop) : P ∧ Q → Q ∧ P :=
+begin
+  assume hpq, -- this is a comment in Lean
+  split,
+  all_goals {
+    cases hpq with hp hq,
+    assumption,
+  },
+end
+
+/- This is another comment. -/
 example (P Q : Prop) : P ∨ Q → Q ∨ P :=
 begin
-  sorry,
+  assume hpq, 
+  cases hpq,
+  {
+    right,
+    exact hpq,
+  },
+  {
+    left,
+    exact hpq,
+  }
 end
+
+#check @false.elim
 
 example (P Q R : Prop) : P ∧ false ↔ false :=
 begin
-  sorry,
+  split,
+  {
+    assume hpf,
+    cases hpf with hp hf,
+    exact hf,
+  },
+  {
+    assume hf,
+    exfalso, 
+    exact hf,
+  }
 end
 
 theorem principle_of_explosion (P Q : Prop) : P ∧ ¬ P → Q :=
@@ -347,10 +411,18 @@ end
 Prove these:
 -/
 -- Use rw.
-lemma eq_symm : ∀ (x y : ℕ), x = y → y = x := sorry
+lemma eq_symm : ∀ (x y : ℕ), x = y → y = x := 
+begin
+  assume x y Hxy,
+  rewrite Hxy,
+end
 
 -- XX: Show what proving a negation means. Use injection. 
-lemma one_ne_zero' : ¬(1 = 0) := sorry
+lemma one_ne_zero' : ¬(1 = 0) := 
+begin
+  assume onezero,
+  injection onezero,
+end
 
 
 
