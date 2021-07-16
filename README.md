@@ -34,6 +34,7 @@ This course will be more interactive than the other courses and you will have pl
 ## Online Resources
 
 * [The Natural Number Game](https://www.ma.imperial.ac.uk/~buzzard/xena/natural_number_game/)
+* [The Complex Number Game](https://github.com/ImperialCollegeLondon/complex-number-game)
 
 
 ## Further Reading
